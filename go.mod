@@ -1,8 +1,7 @@
 module github.com/NVIDIA/gpu-operator
 
 go 1.22.0
-
-toolchain go1.22.4
+toolchain go1.23.2
 
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0
@@ -18,7 +17,7 @@ require (
 	github.com/openshift/api v0.0.0-20240625084701-0689f006bcde
 	github.com/openshift/client-go v0.0.0-20240528061634-b054aa794d87
 	github.com/operator-framework/api v0.27.0
-	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.76.2
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.77.1
 	github.com/prometheus/client_golang v1.20.4
 	github.com/regclient/regclient v0.7.1
 	github.com/sirupsen/logrus v1.9.3
@@ -150,14 +149,14 @@ require (
 	go.opentelemetry.io/otel/trace v1.28.0 // indirect
 	go.starlark.net v0.0.0-20231121155337-90ade8b19d09 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.26.0 // indirect
+	golang.org/x/crypto v0.27.0 // indirect
 	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
-	golang.org/x/net v0.28.0 // indirect
+	golang.org/x/net v0.29.0 // indirect
 	golang.org/x/oauth2 v0.21.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
-	golang.org/x/sys v0.24.0 // indirect
-	golang.org/x/term v0.23.0 // indirect
-	golang.org/x/text v0.17.0 // indirect
+	golang.org/x/sys v0.25.0 // indirect
+	golang.org/x/term v0.24.0 // indirect
+	golang.org/x/text v0.18.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
 	golang.org/x/tools v0.24.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
@@ -174,7 +173,7 @@ require (
 	k8s.io/component-base v0.31.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340 // indirect
 	k8s.io/kubectl v0.31.0 // indirect
-	k8s.io/utils v0.0.0-20240711033017-18e509b52bc8 // indirect
+	k8s.io/utils v0.0.0-20240902221715-702e33fdd3c3 // indirect
 	oras.land/oras-go v1.2.5 // indirect
 	sigs.k8s.io/kustomize/api v0.17.2 // indirect
 	sigs.k8s.io/kustomize/kyaml v0.17.1 // indirect
