@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/go-logr/logr"
 
@@ -29,8 +30,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/util/workqueue"
-
-	"time"
 
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -45,6 +44,7 @@ import (
 
 	gpuv1 "github.com/NVIDIA/gpu-operator/api/nvidia/v1"
 	"github.com/NVIDIA/gpu-operator/internal/conditions"
+	"github.com/NVIDIA/gpu-operator/internal/utils"
 )
 
 const (
@@ -62,6 +62,7 @@ type ClusterPolicyReconciler struct {
 	client.Client
 	Log              logr.Logger
 	Scheme           *runtime.Scheme
+	LabelSelector    metav1.LabelSelector
 	conditionUpdater conditions.Updater
 }
 
@@ -362,11 +363,17 @@ func (r *ClusterPolicyReconciler) SetupWithManager(ctx context.Context, mgr ctrl
 	// initialize condition updater
 	r.conditionUpdater = conditions.NewClusterPolicyUpdater(mgr.GetClient())
 
+	labelSelectorPredicate, err := utils.LabelSelectorPredicate[*gpuv1.ClusterPolicy](r.LabelSelector)
+	if err != nil {
+		return fmt.Errorf("unable to create label selector predicate: %v", err)
+	}
+
 	// Watch for changes to primary resource ClusterPolicy
 	err = c.Watch(source.Kind(
 		mgr.GetCache(),
 		&gpuv1.ClusterPolicy{},
 		&handler.TypedEnqueueRequestForObject[*gpuv1.ClusterPolicy]{},
+		labelSelectorPredicate,
 		predicate.TypedGenerationChangedPredicate[*gpuv1.ClusterPolicy]{},
 	),
 	)

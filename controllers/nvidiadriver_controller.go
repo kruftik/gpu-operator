@@ -45,14 +45,16 @@ import (
 	"github.com/NVIDIA/gpu-operator/internal/conditions"
 	"github.com/NVIDIA/gpu-operator/internal/consts"
 	"github.com/NVIDIA/gpu-operator/internal/state"
+	"github.com/NVIDIA/gpu-operator/internal/utils"
 	"github.com/NVIDIA/gpu-operator/internal/validator"
 )
 
 // NVIDIADriverReconciler reconciles a NVIDIADriver object
 type NVIDIADriverReconciler struct {
 	client.Client
-	Scheme      *runtime.Scheme
-	ClusterInfo clusterinfo.Interface
+	Scheme        *runtime.Scheme
+	ClusterInfo   clusterinfo.Interface
+	LabelSelector metav1.LabelSelector
 
 	stateManager          state.Manager
 	nodeSelectorValidator validator.Validator
@@ -262,11 +264,17 @@ func (r *NVIDIADriverReconciler) SetupWithManager(ctx context.Context, mgr ctrl.
 		return err
 	}
 
+	labelSelectorPredicate, err := utils.LabelSelectorPredicate[*nvidiav1alpha1.NVIDIADriver](r.LabelSelector)
+	if err != nil {
+		return fmt.Errorf("unable to create label selector predicate: %v", err)
+	}
+
 	// Watch for changes to the primary resource NVIDIaDriver
 	err = c.Watch(source.Kind(
 		mgr.GetCache(),
 		&nvidiav1alpha1.NVIDIADriver{},
 		&handler.TypedEnqueueRequestForObject[*nvidiav1alpha1.NVIDIADriver]{},
+		labelSelectorPredicate,
 		predicate.TypedGenerationChangedPredicate[*nvidiav1alpha1.NVIDIADriver]{},
 	),
 	)
