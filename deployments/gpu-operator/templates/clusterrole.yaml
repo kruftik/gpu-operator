@@ -115,6 +115,20 @@ rules:
   - delete
 {{- if ne .Values.operator.policyInstance "cluster-policy" }}
 - apiGroups:
+    - nvidia.com
+  resources:
+    - clusterpolicies
+    - clusterpolicies/finalizers
+    - clusterpolicies/status
+    - nvidiadrivers
+    - nvidiadrivers/finalizers
+    - nvidiadrivers/status
+  verbs:
+    - create
+    - get
+    - list
+    - watch
+- apiGroups:
   - nvidia.com
   resources:
   - clusterpolicies
@@ -122,9 +136,6 @@ rules:
   - clusterpolicies/status
   verbs:
   - create
-  - get
-  - list
-  - watch
   - update
   - patch
   - delete
@@ -139,9 +150,6 @@ rules:
     - nvidiadrivers/status
   verbs:
     - create
-    - get
-    - list
-    - watch
     - update
     - patch
     - delete
