@@ -65,6 +65,7 @@ validator:
         value: "false"
 
 operator:
+  policyInstance: "cluster-policy"
   repository: nvcr.io/nvidia
   image: gpu-operator
   # If version is not specified, then default is to use chart.AppVersion
@@ -135,6 +136,7 @@ driver:
   nvidiaDriverCRD:
     enabled: false
     deployDefaultCR: true
+    instance: "default"
     driverType: gpu
     nodeSelector: {}
   useOpenKernelModules: false

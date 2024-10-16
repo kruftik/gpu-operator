@@ -2,7 +2,10 @@
 apiVersion: nvidia.com/v1alpha1
 kind: NVIDIADriver
 metadata:
-  name: default
+  name: {{ required "driver.nvidiaDriverCRD.instance is required" .Values.driver.nvidiaDriverCRD.instance }}
+  labels:
+    {{- include "gpu-operator.labels" . | nindent 4 }}
+    app.kubernetes.io/component: "gpu-operator"
 spec:
   repository: {{ .Values.driver.repository }}
   image: {{ .Values.driver.image }}
